@@ -10,6 +10,7 @@ private:
 public:
 	Board(Graphics& _gfx);
 	void drawCell(const Location& loc, const Color c);
+	void drawBoundary();
 
 	int getHeight() const { return height; }
 	int getWidth() const { return width; }

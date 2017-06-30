@@ -43,7 +43,6 @@ private:
 	void UpdateModel();
 	/********************************/
 	/*  User Functions              */
-	void drawBoundary();
 	/********************************/
 private:
 	MainWindow& wnd;
