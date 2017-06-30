@@ -12,3 +12,7 @@ void Board::drawCell(const Location & loc, const Color c) {
 	int paddingX = 3, paddingY = 3;
 	gfx.DrawRectDim(loc.x * cellSide + paddingX, loc.y * cellSide + paddingY, cellSide - paddingX, cellSide - paddingY, c);
 }
+
+void Board::drawBoundary() {
+
+}

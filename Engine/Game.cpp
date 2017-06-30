@@ -82,18 +82,11 @@ void Game::UpdateModel()
 void Game::ComposeFrame() {
 	snek.draw(brd);
 	food.draw(brd);
-	drawBoundary();
+	brd.drawBoundary();
 	if (!started) {
 		SpriteCodex::DrawTitle(200, 200, gfx);
 	}
 	else if (ended) {
 		SpriteCodex::DrawGameOver(200, 200, gfx);
 	}
-}
-
-void Game::drawBoundary() {
-	gfx.DrawRectDim(0, 0, brd.getSide(), brd.getSide() * brd.getHeight(), Colors::Blue);
-	gfx.DrawRectDim(brd.getSide() * (brd.getWidth() - 1), 0, brd.getSide(), brd.getSide() * brd.getHeight(), Colors::Blue);
-	gfx.DrawRectDim(0, 0, brd.getSide() * brd.getWidth(), brd.getSide(), Colors::Blue);
-	gfx.DrawRectDim(0, brd.getSide() * (brd.getHeight() - 1), brd.getSide() * brd.getWidth(), brd.getSide(), Colors::Blue);
 }
