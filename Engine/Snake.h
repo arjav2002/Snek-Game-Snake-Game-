@@ -24,9 +24,9 @@ private:
 private:
 	int currentSegments = 3;
 	Board& brd;
-	static constexpr int maxSegments = 40 * 30, nSegmentColors = 3;
+	static constexpr int maxSegments = 40 * 30, nSegmentColors = 4;
 	Segment segments[maxSegments];
-	Color segmentColors[nSegmentColors] = { {0, 255, 0}, {50, 255, 50}, {100, 255, 100} };
+	Color segmentColors[nSegmentColors] = { {10, 100, 32}, {10, 130, 48}, {18, 160, 48}, { 10, 130, 48 } };
 	Color headColor = { 255, 255, 0 };
 	char direction = 0; // 0->left 1->up 2->right 3->down (clockwise)
 	bool HasBangedIntoWall = false, IsHeadEatingBody = false, HasBangedIntoObstacle = false;

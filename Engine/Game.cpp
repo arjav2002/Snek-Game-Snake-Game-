@@ -87,7 +87,7 @@ void Game::UpdateModel()
 void Game::ComposeFrame() {
 	
 	if (!started) {
-		SpriteCodex::DrawTitle(200, 200, gfx);
+		SpriteCodex::DrawTitle(290, 225, gfx);
 	}
 	else {
 		snek.draw(brd);
@@ -98,6 +98,6 @@ void Game::ComposeFrame() {
 
 		brd.drawBoundary();
 		if (ended)
-			SpriteCodex::DrawGameOver(200, 200, gfx);
+			SpriteCodex::DrawGameOver(360, 250, gfx);
 	}
 }
