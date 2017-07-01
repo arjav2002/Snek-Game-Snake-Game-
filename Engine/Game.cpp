@@ -28,7 +28,7 @@ Game::Game(MainWindow& wnd)
 	brd(gfx),
 	rng(std::random_device()()),
 	snek(Location{ brd.getWidth()/2, brd.getHeight()/2 }, brd),
-	food(rng, brd, snek)
+	food(rng, brd, snek, obstacles, currentObstacles)
 {}
 
 void Game::Go()
@@ -56,22 +56,27 @@ void Game::UpdateModel()
 				tempDirection = 0;
 		}
 		if (snek.getHeadLocation() == food.getLocation()) {
-			food.respawn(rng, brd, snek);
+			food.respawn(rng, brd, snek, obstacles, currentObstacles);
 			eaten = true;
 			score++;
 		}
-		if (updatesDun >= snekMovePeriod) {
+		if (snekMoveCounter >= snekMovePeriod) {
 			snek.setDirection(tempDirection);
 			if (eaten) {
 				snek.grow();
-				if(snekMovePeriod > 0) snekMovePeriod--;
+				if (snekMovePeriod > 0) snekMovePeriod--;
 				eaten = false;
 			}
-			snek.update();
-			ended = snek.isHeadEatingBody() || snek.hasBangedIntoWall();
-			updatesDun = 0;
+			snek.update(obstacles, currentObstacles);
+			ended = snek.isHeadEatingBody() || snek.hasBangedIntoWall() || snek.hasBangedIntoObstacle();
+			snekMoveCounter = 0;
 		}
-		updatesDun++;
+		snekMoveCounter++;
+		if (spawnObstacleCounter >= spawnObstacleTime) {
+			obstacles[currentObstacles++].init(rng, brd, obstacles, currentObstacles, snek);
+			spawnObstacleCounter = 0;
+		}
+		spawnObstacleCounter++;
 	}
 	else if (!started && !ended) {
 		if (wnd.kbd.KeyIsPressed(VK_RETURN))
@@ -80,13 +85,19 @@ void Game::UpdateModel()
 }
 
 void Game::ComposeFrame() {
-	snek.draw(brd);
-	food.draw(brd);
-	brd.drawBoundary();
+	
 	if (!started) {
 		SpriteCodex::DrawTitle(200, 200, gfx);
 	}
-	else if (ended) {
-		SpriteCodex::DrawGameOver(200, 200, gfx);
+	else {
+		snek.draw(brd);
+		food.draw(brd);
+
+		for (int i = 0; i < currentObstacles; i++)
+			obstacles[i].draw(brd);
+
+		brd.drawBoundary();
+		if (ended)
+			SpriteCodex::DrawGameOver(200, 200, gfx);
 	}
 }

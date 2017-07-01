@@ -14,13 +14,20 @@ void Board::drawCell(const Location& loc, const Color c) {
 }
 
 void Board::drawBoundary() {
+	int left = xOffset;
 	int top = yOffset;
 	int bottom = yOffset + height * cellSide;
-	int left = xOffset;
 	int right = xOffset + width * cellSide;
 
-	gfx.DrawRectDim(left, top, right - left, cellSide, {0, 0, 255});
-	gfx.DrawRectDim(left, top + cellSide, cellSide, bottom - top - 2 * cellSide, { 0, 0, 255 });
-	gfx.DrawRectDim(right - cellSide, top + cellSide, cellSide, bottom - top - 2 * cellSide, { 0, 0, 255 });
-	gfx.DrawRectDim(left, bottom - cellSide, right - left, cellSide, { 0, 0, 255 });
+	// top
+	gfx.DrawRect(left - borderWidth, top - borderWidth, right + borderWidth, top - borderPadding, borderColor);
+
+	// left
+	gfx.DrawRect(left - borderWidth, top - borderPadding, left - borderPadding, bottom + borderPadding, borderColor);
+
+	// bottom
+	gfx.DrawRect(left - borderWidth, bottom + borderPadding, right + borderWidth, bottom + borderWidth, borderColor);
+
+	// right
+	gfx.DrawRect(right + borderWidth, top - borderPadding, right + borderPadding, bottom + borderPadding, borderColor);
 }

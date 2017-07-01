@@ -27,6 +27,7 @@
 #include "Snake.h"
 #include "SpriteCodex.h"
 #include "Food.h"
+#include "Obstacle.h"
 
 #include <random>
 #include <chrono>
@@ -53,10 +54,15 @@ private:
 	int snekMovePeriod = 20;
 
 	Board brd;
+	Obstacle obstacles[100];
 	Snake snek;
 	Food food;
 
-	int updatesDun = 0, tempDirection = 0, score = 0;
+	int currentObstacles = 0;
+	int snekMoveCounter = 0, tempDirection = 0, score = 0;
 	bool started = false, ended = false, eaten = false;
+
+	static constexpr int spawnObstacleTime = 300;
+	int spawnObstacleCounter = 0;
 	/********************************/
 };

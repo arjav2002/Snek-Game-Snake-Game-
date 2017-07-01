@@ -22,7 +22,7 @@ void Snake::grow() {
 	segments[currentSegments++].init(newLoc, brd.getWidth(), brd.getHeight());
 }
 
-void Snake::update() {
+void Snake::update(const Obstacle obstacles[], const int currentObstacles) {
 	Location deltaLoc;
 	if (direction == 0) {
 		deltaLoc.x = -1;
@@ -43,8 +43,8 @@ void Snake::update() {
 
 	Location resultantLoc = segments[0].getLocation() + deltaLoc;
 
-	HasBangedIntoWall = resultantLoc.x <= 0 || resultantLoc.y <= 0 || 
-						resultantLoc.x >= brd.getWidth() - 1 || resultantLoc.y >= brd.getHeight() - 1;
+	HasBangedIntoWall = resultantLoc.x < 0 || resultantLoc.y < 0 || 
+						resultantLoc.x > brd.getWidth() - 1 || resultantLoc.y > brd.getHeight() - 1;
 
 	for (int i = 1; i < currentSegments; i++) {
 		if (resultantLoc == segments[i].getLocation()) {
@@ -53,7 +53,14 @@ void Snake::update() {
 		}			
 	}
 
-	if (HasBangedIntoWall || IsHeadEatingBody)
+	for (int i = 0; i < currentObstacles; i++) {
+		if (resultantLoc == obstacles[i].loc) {
+			HasBangedIntoObstacle = true;
+			break;
+		}
+	}
+
+	if (HasBangedIntoWall || IsHeadEatingBody || HasBangedIntoObstacle)
 		return;
 
 	move(deltaLoc);

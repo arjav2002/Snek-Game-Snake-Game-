@@ -2,6 +2,7 @@
 
 #include "Board.h"
 #include "Location.h"
+#include "Obstacle.h"
 
 class Snake {
 private:
@@ -28,16 +29,17 @@ private:
 	Color segmentColors[nSegmentColors] = { {0, 255, 0}, {50, 255, 50}, {100, 255, 100} };
 	Color headColor = { 255, 255, 0 };
 	char direction = 0; // 0->left 1->up 2->right 3->down (clockwise)
-	bool HasBangedIntoWall = false, IsHeadEatingBody = false;
+	bool HasBangedIntoWall = false, IsHeadEatingBody = false, HasBangedIntoObstacle = false;
 public:
 	Snake(Location& loc, Board& _brd);
 	void draw(Board& brd);
 	void grow();
-	void update();
+	void update(const Obstacle obstacles[], const int currentObstacles);
 	bool isInTile(const Location& tile) const;
 	char getDirection() const { return direction; }
 	void setDirection(const char dir) { direction = dir; }
 	Location getHeadLocation() const { return segments[0].getLocation(); }
 	bool isHeadEatingBody() const { return IsHeadEatingBody; }
 	bool hasBangedIntoWall() const { return HasBangedIntoWall; }
+	bool hasBangedIntoObstacle() const { return HasBangedIntoObstacle; };
 };
